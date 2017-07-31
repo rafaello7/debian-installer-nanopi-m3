@@ -1,0 +1,13 @@
+Source: nanopi-bootable
+Maintainer: Rafaello7 <fatwildcat@gmail.com>
+Build-Depends: debhelper (>= 9)
+Priority: standard
+
+Package: nanopi-bootable
+Architecture: arm64
+Section: debian-installer
+Provides: bootable-system, kernel-installer
+Depends: ${misc:Depends}, ${shlibs:Depends}, bootstrap-base
+XB-Installer-Menu-Item: 6700
+Package-Type: udeb
+Description: Makes nanopi bootable

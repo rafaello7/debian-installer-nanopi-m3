@@ -1,0 +1,36 @@
+Template: debian-installer/nanopi-bootable/title
+Type: text
+Description: Make NanoPi bootable
+
+Template: nanopi-bootable/progress_title
+Type: text
+Description: Installing NanoPi kernel and u-boot
+
+Template: nanopi-bootable/install_initramfs_tools
+Type: text
+Description: Installing initramfs tools
+
+Template: nanopi-bootable/install_kernel
+Type: text
+Description: Installing kernel
+
+Template: nanopi-bootable/install_uboot
+Type: text
+Description: Installing u-boot
+
+Template: nanopi-bootable/boot_not_on_mmc
+Type: error
+Description: Unable to obtain SD card partition with /boot directory.
+ /boot directory shall be on SD card, which appears as ${RIGHTDRV}.
+ Currently the /boot directory is located in ${CURDRV}. This device
+ is not visible by u-boot.
+ .
+ There are some limitations concerning /boot directory:
+  * it must be located on SD card
+  * it cannot be on LVM
+  * filesystem type may be only ext2/ext3/ext4
+
+Template: nanopi-bootable/boot_bad_fstype
+Type: error
+Description: Wrong filesystem type of /boot directory
+ Only ext2/ext3/ext4 filesystem type is supported.

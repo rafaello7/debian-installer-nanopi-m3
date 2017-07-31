@@ -1,0 +1,20 @@
+Source: linux
+Maintainer: Rafaello7 <fatwildcat@gmail.com>
+Build-Depends: debhelper (>= 9)
+Priority: standard
+
+Package: kernel-image-4.11.6+-di
+Architecture: arm64
+Section: debian-installer
+Provides: kernel-image, crypto-modules, ext2-modules, fat-modules
+Package-Type: udeb
+Kernel-Version: 4.11.6+
+Description: Linux kernel
+
+Package: nic-modules-4.11.6+-di
+Architecture: arm64
+Section: debian-installer
+Depends: kernel-image-4.11.6+-di
+Package-Type: udeb
+Kernel-Version: 4.11.6+
+Description: Kernel modules
