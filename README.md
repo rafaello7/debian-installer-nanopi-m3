@@ -2,7 +2,7 @@
 
 ### How to install Debian using the installer
 
-Download installation image from [releases](/rafaello7/debian-installer-nanopi-m3/releases) page. Get micro SD card, on which the Debian system should be installed. At least 8 GB card capacity is recommended. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
+Download installation image from [releases](https://github.com/rafaello7/debian-installer-nanopi-m3/releases) page. Get micro SD card, on which the Debian system should be installed. At least 8 GB card capacity is recommended. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
 
 	cat debian-installer-nanopi.img >/dev/sdX
 
