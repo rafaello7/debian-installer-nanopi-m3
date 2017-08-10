@@ -21,7 +21,7 @@ Description: Installing u-boot
 Template: nanopi-bootable/boot_not_on_mmc
 Type: error
 Description: Unable to obtain SD card partition with /boot directory.
- /boot directory shall be on SD card, which appears as ${RIGHTDRV}.
+ /boot directory shall be on SD card, which appears as /dev/mmcblk2
  Currently the /boot directory is located in ${CURDRV}. This device
  is not visible by u-boot.
  .

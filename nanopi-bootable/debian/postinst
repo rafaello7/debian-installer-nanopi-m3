@@ -10,9 +10,6 @@ nano_logoutput() {
 	log-output -t nanopi-bootable "$@"
 }
 
-embed_drv=/dev/mmcblk1
-[ -e /dev/mmcblk0 ] && embed_drv=/dev/mmcblk0
-
 # obtain partition, path and fs type of directory containing vmlinuz and initrd
 bootmnt=$(mount | sed -e '/on \/target\/boot /!d' | tail -1)
 if [ -z "$bootmnt" ]
@@ -24,7 +21,6 @@ else
 	bootpath=
 fi
 if [ "$bootmnt" = "${bootmnt#/dev/mmcblk?p}" ]; then
-	db_subst nanopi-bootable/boot_not_on_mmc RIGHTDRV "$embed_drv"
 	# borrowed from lilo-installer ;)
 	curdrv=$(echo $bootmnt | sed 's/\(\/dev\/\(cciss\|ida\)\/c[0-9]d[0-9][0-9]*\|\/dev\/[a-z]\+\).*/\1/')
 	db_subst nanopi-bootable/boot_not_on_mmc CURDRV "${curdrv}"
@@ -36,13 +32,16 @@ if [ -z "${bootmnt##* type ext*}" ]; then
 	bootfstype=ext4
 elif [ -z "${bootmnt##* type vfat *}" ]; then
 	bootfstype=fat
+	# make space for kernel from deb package and generated initrd.img
+	nano_logoutput rm -f /target/boot/vmlinuz /target/boot/initrd.gz
 else
 	db_input critical nanopi-bootable/boot_bad_fstype
 	db_go || exit 10 # back up
 	exit 1
 fi
+bootmnt=${bootmnt%% *}
 bootpart=${bootmnt#/dev/mmcblk?p}
-bootpart=${bootpart%% *}
+embed_drv=${bootmnt%p${bootpart}}
 
 db_progress start 0 4 nanopi-bootable/progress_title
 db_progress step 1
@@ -56,21 +55,32 @@ pkgname=$(cd /var/lib/nanopi-bootable && echo linux-image-*.deb)
 cp /var/lib/nanopi-bootable/$pkgname /target/tmp
 in-target dpkg -i /tmp/$pkgname
 rm -f /target/tmp/$pkgname
-nano_logoutput ln -sf initrd.img-4.11.6+ /target/boot/initrd.img
-nano_logoutput ln -sf vmlinuz-4.11.6+ /target/boot/vmlinuz
-nano_logoutput cp /target/usr/lib/linux-image-4.11.6+/nexell/s5p6818-nanopi-m3.dtb /target/boot
+if [ "$bootfstype" = fat ]; then
+	nano_logoutput cp -f /target/boot/initrd.img-4.11.6+ /target/boot/initrd.img
+	nano_logoutput cp -f /target/boot/vmlinuz-4.11.6+ /target/boot/vmlinuz
+else
+	nano_logoutput ln -sf initrd.img-4.11.6+ /target/boot/initrd.img
+	nano_logoutput ln -sf vmlinuz-4.11.6+ /target/boot/vmlinuz
+fi
+nano_logoutput cp -f /target/usr/lib/linux-image-4.11.6+/nexell/s5p6818-nanopi-m3.dtb /target/boot
 db_progress step 1
 
 db_progress info nanopi-bootable/install_uboot
 # embedding boot.img on sd card
-# on 4.11 kernel the SD appears as /dev/mmcblk1
-# on 4.4 as /dev/mmcblk0
-# 4.11 kernel does not have /dev/mmcblk0
+# on 4.11 kernel the SD appears as /dev/mmcblk2, emmc as /dev/mmcblk0
 bootimg=/var/lib/nanopi-bootable/boot.img
+
+if [ "$embed_drv" = "/dev/mmcblk0" ]; then
+	# bl1 image is prepared for loading u-boot from SD
+	# booting from emmc: fix MMC drive number in bl1 NSIH header
+	printf "\2" | dd of="$bootimg" seek=80
+	loadcmd="${bootfstype}load mmc 0:$bootpart"
+else
+	loadcmd="${bootfstype}load mmc 1:$bootpart"
+fi
 nano_log "embedding $bootimg on $embed_drv"
 nano_logoutput dd if=$bootimg of=$embed_drv seek=1
 
-loadcmd="${bootfstype}load mmc 0:$bootpart"
 # obtain root partition
 rootmnt=$(mount | sed -e '/on \/target /!d' -e 's/ .*//' | tail -1)
 nano_log "loadcmd=$loadcmd, bootpath=$bootpath, rootmnt=$rootmnt"
@@ -78,6 +88,9 @@ nano_log "loadcmd=$loadcmd, bootpath=$bootpath, rootmnt=$rootmnt"
 # set environment for u-boot
 {
 	echo "bootargs=console=ttySAC0,115200n8 initrd=0x49000000,0x800000 root=$rootmnt console=tty1"
+	echo "stdin=serial"
+	echo "stdout=serial,vga"
+	echo "stderr=serial,vga"
 	# vmlinuz must be unzipped for booti command
 	# initrd must be padded with zeros till size provided in "initrd=" parameter
 	# otherwise kernel does not use the initrd image

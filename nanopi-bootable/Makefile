@@ -13,4 +13,4 @@ deb:
 	rm -f ../nanopi-bootable_*_arm64.changes
 
 clean:
-	rm -f var
+	rm -rf var
