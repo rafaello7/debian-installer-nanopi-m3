@@ -4,6 +4,7 @@ all:
 	cp ../kernel-image-4.11.6+-di_4.11.6+-1_arm64.udeb upstream/build/localudebs
 	cp ../nanopi-bootable_1_arm64.udeb upstream/build/localudebs
 	cp ../nic-modules-4.11.6+-di_4.11.6+-1_arm64.udeb upstream/build/localudebs
+	cp ../nanopi-bluetooth_1_arm64.udeb upstream/build/localudebs
 	cd upstream/build && make SUBARCH=nanopim3 USE_UDEBS_FROM=stretch KERNELVERSION=4.11.6+ build_nanopim3_netboot-gtk
 	@echo
 	@ls -l upstream/build/dest/nanopim3/netboot/gtk/initrd.gz

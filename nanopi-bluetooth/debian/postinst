@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+. /usr/share/debconf/confmodule
+
+nano_log() {
+	logger -t nanopi-bluetooth "$@"
+}
+
+nano_logoutput() {
+	log-output -t nanopi-bluetooth "$@"
+}
+
+db_progress start 0 2 nanopi-bootable/progress_title
+db_progress step 1
+
+pkgname=$(cd /var/lib/nanopi-bluetooth && echo nanopi-bluetooth_*_arm64.deb)
+cp /var/lib/nanopi-bluetooth/$pkgname /target/tmp
+in-target dpkg -i /tmp/$pkgname
+rm -f /target/tmp/$pkgname
+
+db_progress step 1
+db_progress stop
+

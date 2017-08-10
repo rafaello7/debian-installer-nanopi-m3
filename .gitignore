@@ -14,6 +14,8 @@ debhelper-build-stamp
 /kernel-di/debian/nic-modules-4.11.6+-di/
 /kernel-di/lib/
 /kernel-di/tmp/
+/nanopi-bluetooth/debian/nanopi-bluetooth/
+/nanopi-bluetooth/var/
 /nanopi-bootable/debian/nanopi-bootable/
 /nanopi-bootable/var/
 /ubootenv/ubootenv
