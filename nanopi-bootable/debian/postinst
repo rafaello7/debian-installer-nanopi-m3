@@ -73,7 +73,7 @@ bootimg=/var/lib/nanopi-bootable/boot.img
 if [ "$embed_drv" = "/dev/mmcblk0" ]; then
 	# bl1 image is prepared for loading u-boot from SD
 	# booting from emmc: fix MMC drive number in bl1 NSIH header
-	printf "\2" | dd of="$bootimg" bs=1 seek=80
+	printf "\2" | dd of="$bootimg" bs=1 seek=80 conv=notrunc
 	loadcmd="${bootfstype}load mmc 0:$bootpart"
 else
 	loadcmd="${bootfstype}load mmc 1:$bootpart"
