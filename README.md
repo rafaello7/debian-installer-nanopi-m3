@@ -1,16 +1,22 @@
 ## Debian installer for FriendlyARM NanoPi M3
 
+The installer was also tested to work on NanoPC T3. The NanoPC T3 board contains emmc card and the installation may be done also on emmc.
+
 ### How to install Debian using the installer
 
-Download installation image from [releases](https://github.com/rafaello7/debian-installer-nanopi-m3/releases) page. Get micro SD card, on which the Debian system should be installed. At least 8 GB card capacity is recommended. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
+Download installation image from [releases](https://github.com/rafaello7/debian-installer-nanopi-m3/releases) page. Get an empty micro SD card. This may be the target card on which Debian will be installed, but this is not required. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
 
 	cat debian-installer-nanopi.img >/dev/sdX
 
-Where sdX is the SD card device. Next, insert the SD card into NanoPi device SD card slot. Plug monitor, keyboard and mouse. Power on the device. Wait until installer boots (this may take some time). Follow installation instructions.
+Where sdX is the SD card device. Insert the SD card into SD card slot on NanoPi. Plug monitor, keyboard and mouse. Power on the device. Wait until installer boots (this may take some time).
+
+At this time the SD card is unused and may be replaced with the target SD. At least 8 GB card is recommended, but it highly depends on desired desktop environment. For installation without GUI 2 GB is enough.
+
+Follow the installation instructions.
 
 Note that Debian installer is robust and allows to install Debian not only on SD card. But for NanoPi there are some limitations concerning _/boot_ directory, namely:
 
- * the _/boot_ directory must be located on SD card; it does not matter whether it is mounted or not mounted as a separate partition, but in all cases it must be located on SD card
+ * the _/boot_ directory must be located on SD card; it does not matter whether it is mounted or not mounted as a separate partition, but in all cases it must be located on SD card (on NanoPC T3 it may be also on emmc).
  * it cannot be on LVM
  * filesystem type may be only ext2/ext3/ext4
 
