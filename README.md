@@ -38,6 +38,53 @@ The installer is not perfect. Sometimes some step may fail. For example, I encou
 
 When some installation step fails, please press Ctrl+Alt+F4. This key combination redirects to page with installation logs. They may provide more accurate information about the failure reason. Sometimes a problem may appear because of problems with hardware, for example broken SD card. The installation logs should provide accurate information.
 
+### Nano Video
+
+The s5p6818 SOC contains VPU (Video Processing Unit) hardware dedicated
+for encoding/decoding video files. The SOC contains also an overlay graphics
+layer (plane) dedicated for render graphics in formats suitable for playing
+video files (yuv420, yuv422, yuv444). The hardware allows to play video
+with little CPU utilization. The video hardware is available in Linux as
+video4linux devices:
+
+ * VPU encoder as /dev/video14
+ * VPU decoder as /dev/video15
+ * Overlay video layer as /dev/video1
+
+Unfortunately most of the video sofware does not give any opportunity to
+utilize these devices. However GStreamer gives this opportunity. The
+_gstreamer1.0-plugins-good_ package contains video4linux plugins whose
+allow to play the video using VPU decoder and overlay video layer. It is needed
+also _h264parse_ plugin from _gstreamer1.0-plugins-bad_. When pulseaudio
+package is installed, also _gstreamer1.0-pulseaudio_ package installation is
+recommended.
+
+Below are some usage examples of these devices using _gst-launch-1.0_ utility.
+A most simple usage, using _playbin_ plugin:
+
+	gst-launch-1.0 playbin uri=file://$HOME/Videos/01_Blessed.mp4 video-sink=v4l2sink
+
+The above command may be also launched without GUI started. It has one
+disadvantage, namely it consumes some CPU because decoded image is copied
+between VPU and video sink.
+
+A hand-made pipeline for h264 video stream (avc1) with yuv420p image format:
+
+	gst-launch-1.0 filesrc location=$HOME/Videos/01_Blessed.mp4 ! qtdemux name=demux demux.video_0 ! h264parse ! v4l2video15dec capture-io-mode=dmabuf-import ! v4l2sink device=/dev/video1 overlay-top=300 overlay-left=600 overlay-width=1280 overlay-height=720 io-mode=dmabuf demux.audio_0 ! queue ! avdec_aac ! pulsesink
+
+The _io-mode_ parameters are causing that decoded video is not copied, so
+the CPU usage is very little. It is also possible to play video without
+_v4l2video15dec_ plugin. In this case video is decoded by software.
+CPU usage is much higher, although still much less than when video is
+decoded fully by software:
+
+	gst-launch-1.0 filesrc location=$HOME/Videos/01_Blessed.mp4 ! qtdemux name=demux demux.video_0 ! queue ! avdec_h264 ! videoconvert ! v4l2sink device=/dev/video1 overlay-top=180 overlay-left=330 overlay-width=1280 overlay-height=720 demux.audio_0 ! queue ! avdec_aac ! pulsesink
+
+
+I have also created [nano-video](https://github.com/rafaello7/nano-video)
+program, a simple video player for NanoPi M3 that uses the GStreamer.
+Please try.
+
 
 ### How to bould own Debian installer from sources
 
