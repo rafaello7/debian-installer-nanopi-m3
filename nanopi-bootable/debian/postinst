@@ -62,7 +62,6 @@ else
 	nano_logoutput ln -sf initrd.img-4.11.6+ /target/boot/initrd.img
 	nano_logoutput ln -sf vmlinuz-4.11.6+ /target/boot/vmlinuz
 fi
-nano_logoutput cp -f /target/usr/lib/linux-image-4.11.6+/nexell/s5p6818-nanopi-m3.dtb /target/boot
 db_progress step 1
 
 db_progress info nanopi-bootable/install_uboot

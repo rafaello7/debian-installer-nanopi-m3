@@ -19,7 +19,7 @@ all: ../ubootimg/boot.img ../ubootenv/ubootenv
 	sudo mount -t vfat /dev/loop0 mnt
 	@echo "== copying files"
 	sudo cp -v tmp/boot/vmlinuz-* mnt/vmlinuz
-	sudo cp -v tmp/usr/lib/linux-image-4.11.6+/nexell/s5p6818-nanopi-m3.dtb \
+	sudo cp -v tmp/boot/s5p6818-nanopi-m3.dtb \
 		../installer/upstream/build/dest/nanopim3/netboot/gtk/initrd.gz mnt
 	@df mnt
 	@echo "== unmounting $(img)"
