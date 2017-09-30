@@ -1,12 +1,12 @@
-## Debian installer for FriendlyARM NanoPi M3
+## Ubuntu installer for FriendlyARM NanoPi M3
 
 The installer was also tested to work on NanoPC T3. The NanoPC T3 board contains emmc card and the installation may be done also on emmc.
 
-### How to install Debian using the installer
+### How to install Ubuntu using the installer
 
-Download installation image from [releases](https://github.com/rafaello7/debian-installer-nanopi-m3/releases) page. Get an empty micro SD card. This may be the target card on which Debian will be installed, but this is not required. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
+Download installation image from [releases](https://github.com/rafaello7/ubuntu-installer-nanopi-m3/releases) page. Get an empty micro SD card. This may be the target card on which Ubuntu will be installed, but this is not required. Write the installation image directly to the SD card. For example, on Linux system it may be done by run the following command as root:
 
-	cat debian-installer-nanopi.img >/dev/sdX
+	cat ubuntu-installer-nanopi.img >/dev/sdX
 
 Where sdX is the SD card device. Insert the SD card into SD card slot on NanoPi. Plug monitor, keyboard and mouse. Power on the device. Wait until installer boots (this may take some time).
 
@@ -14,7 +14,7 @@ At this time the SD card is unused and may be replaced with the target SD. At le
 
 Follow the installation instructions.
 
-Note that Debian installer is robust and allows to install Debian not only on SD card. But for NanoPi there are some limitations concerning _/boot_ directory, namely:
+Note that Ubuntu installer is robust and allows to install Ubuntu not only on SD card. But for NanoPi there are some limitations concerning _/boot_ directory, namely:
 
  * the _/boot_ directory must be located on SD card; it does not matter whether it is mounted or not mounted as a separate partition, but in all cases it must be located on SD card (on NanoPC T3 it may be also on emmc).
  * it cannot be on LVM
@@ -22,17 +22,17 @@ Note that Debian installer is robust and allows to install Debian not only on SD
 
 These limitations are caused by _u-boot_ restrictions. On the other hand, it is possible to locate root partition on e.g. some USB hard drive.
 
-The installer needs of course Internet connection. It downloads plenty of packets from Debian repository. It is possible to connect using either wifi or ethernet. Both methods are working.
+The installer needs of course Internet connection. It downloads plenty of packets from Ubuntu repository. It is possible to connect using either wifi or ethernet. Both methods are working.
 
-Debian installer warns at some point about missing support for software RAID devices. The warning may be simply ignored :)
+Ubuntu installer warns at some point about missing support for software RAID devices. The warning may be simply ignored :)
 
 ### Installation hints
 
-Debian installer was developed for use on normal PC. Hence it leads the installation in the way suitable for normal PC, which may be not optimal for NanoPi device. Namely:
+Ubuntu installer was developed for use on normal PC. Hence it leads the installation in the way suitable for normal PC, which may be not optimal for NanoPi device. Namely:
 
  * Partition manager demands some swap space. It is a good idea for the NanoPi, but not on SD card. Swap space on SD card is a bad idea in general, because SD card has limited lifetime. Set up swap space on SD card may significantly decrease life time of the SD.
  
- * The Debian installer proposes installation of various desktop environments, including GNOME and KDE. But the device has limited amount of memory and such heavy environments may not work properly. Lightweight desktop environments like LXDE or Xfce should work fine. But beware also on web browsers like firefox or Google chrome (chromium). They may eat hundreds megabytes of memory.
+ * The Ubuntu installer proposes installation of various desktop environments, including GNOME and KDE. But the device has limited amount of memory and such heavy environments may not work properly. Lightweight desktop environments like LXDE or Xfce should work fine. But beware also on web browsers like firefox or Google chrome (chromium). They may eat hundreds megabytes of memory.
 
 The installer is not perfect. Sometimes some step may fail. For example, I encountered a problem with software installation step. It failed because the installer pulled software over a hour and the repository has changed in the meantime - some packages were gone. It was enough to repeat the step - the installer has updated their information about repository contents and has finished successfully.
 
@@ -86,9 +86,9 @@ program, a simple video player for NanoPi M3 that uses the GStreamer.
 Please try.
 
 
-### How to bould own Debian installer from sources
+### How to bould own Ubuntu installer from sources
 
-The installation image may be built only on target Debian system, i.e. on arm64 device running Debian. To properly build the image, some base images must be collected in _base_ subdirectory, namely:
+The installation image may be built only on target Ubuntu system, i.e. on arm64 device running Ubuntu. To properly build the image, some base images must be collected in _base_ subdirectory, namely:
 
  * upstream debian-installer package source. It may be obtained by invoke:
 
@@ -97,14 +97,16 @@ The installation image may be built only on target Debian system, i.e. on arm64 
  * bl1 boot image, _bl1-drone.bin_
  * u-boot binary image, _u-boot.bin_
  * Debian package with kernel - it may be taken from [NanoPi kernel release files](https://github.com/rafaello7/linux-nanopi-m3/releases) or built from the kernel sources as _bindeb-pkg_ target.
+ * nanopi-bluetooth debian package
 
 The directory contents may look like below:
 
-	$ ll debian-installer-nanopi-m3/base
+	$ ll ubuntu-installer-nanopi-m3/base
 	total 6080
 	-rw-r--r-- 1 rafal rafal   28140 Jul 28 17:47 bl1-drone.bin
-	drwxr-xr-x 5 rafal rafal    4096 Jul 18 07:21 debian-installer-20170615+deb9u1
+	drwxr-xr-x 5 rafal rafal    4096 Jul 18 07:21 debian-installer-20101020ubuntu504
 	-rw-r--r-- 1 rafal rafal 5854766 Jul 27 21:24 linux-image-4.11.6+_4.11.6+-395_arm64.deb
+	-rw-r--r-- 1 rafal rafal   33814 Sep 30 16:46 nanopi-bluetooth_2_arm64.deb
 	-rw-r--r-- 1 rafal rafal  335624 Jul 28 17:55 u-boot.bin
 
 It is also necessary to install tools needed to build the installer:

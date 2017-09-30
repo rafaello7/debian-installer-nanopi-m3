@@ -1,0 +1,8 @@
+Template: debian-installer/nanopi-wifi/title
+Type: text
+Description: Install WiFi firmware
+
+Template: nanopi-wifi/progress_title
+Type: text
+Description: Installing WiFi firmware
+

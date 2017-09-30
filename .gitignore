@@ -7,7 +7,9 @@
 debhelper-build-stamp
 /*/debian/files
 /ap6212-firmware-di/debian/ap6212-firmware-di/
-/image/debian-installer-nanopi.img
+/ap6212-firmware-di/debian/ap6212-firmware/
+/ap6212-firmware_1_all.deb
+/image/ubuntu-installer-nanopi.img
 /image/tmp/
 /kernel-di/boot/
 /kernel-di/debian/kernel-image-4.11.6+-di/
@@ -18,5 +20,8 @@ debhelper-build-stamp
 /nanopi-bluetooth/var/
 /nanopi-bootable/debian/nanopi-bootable/
 /nanopi-bootable/var/
+/nanopi-wifi/debian/nanopi-wifi/
+/nanopi-wifi/var/
 /ubootenv/ubootenv
 /ubootimg/boot.img
+

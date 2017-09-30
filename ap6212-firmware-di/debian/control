@@ -3,6 +3,12 @@ Maintainer: Rafaello7 <fatwildcat@gmail.com>
 Build-Depends: debhelper (>= 9)
 Priority: standard
 
+Package: ap6212-firmware
+Architecture: all
+Section: misc
+Priority: standard
+Description: Firmware for ap6212
+
 Package: ap6212-firmware-di
 Architecture: all
 Section: debian-installer
