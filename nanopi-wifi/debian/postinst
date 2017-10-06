@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+. /usr/share/debconf/confmodule
+
+nano_log() {
+	logger -t nanopi-wifi "$@"
+}
+
+nano_logoutput() {
+	log-output -t nanopi-wifi "$@"
+}
+
+db_progress start 0 2 nanopi-wifi/progress_title
+db_progress step 1
+
+pkgname=$(cd /var/lib/nanopi-wifi && echo ap6212-firmware_*_all.deb)
+cp /var/lib/nanopi-wifi/$pkgname /target/tmp
+in-target dpkg -i /tmp/$pkgname
+rm -f /target/tmp/$pkgname
+
+db_progress step 1
+db_progress stop
+

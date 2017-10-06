@@ -10,7 +10,7 @@ nano_logoutput() {
 	log-output -t nanopi-bluetooth "$@"
 }
 
-db_progress start 0 2 nanopi-bootable/progress_title
+db_progress start 0 2 nanopi-bluetooth/progress_title
 db_progress step 1
 
 pkgname=$(cd /var/lib/nanopi-bluetooth && echo nanopi-bluetooth_*_arm64.deb)

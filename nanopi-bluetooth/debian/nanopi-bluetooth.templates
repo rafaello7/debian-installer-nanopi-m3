@@ -2,7 +2,7 @@ Template: debian-installer/nanopi-bluetooth/title
 Type: text
 Description: Add Bluetooth support
 
-Template: nanopi-bootable/progress_title
+Template: nanopi-bluetooth/progress_title
 Type: text
 Description: Installing NanoPi bluetooth support package
 

@@ -1,5 +1,7 @@
+distribution = $(shell sed -ne 's/^ID=//p' </etc/os-release)
+include ../$(distribution).conf
 
-img = debian-installer-nanopi.img
+img = $(distribution)-installer-nanopi.img
 
 all: ../ubootimg/boot.img ../ubootenv/ubootenv
 	$(MAKE) clean
@@ -7,7 +9,7 @@ all: ../ubootimg/boot.img ../ubootenv/ubootenv
 	mkdir tmp
 	dpkg-deb -x ../base/linux-image-*.deb tmp
 	@echo "== creating $(img)"
-	dd if=/dev/zero of=$(img) bs=1M count=40 status=none
+	dd if=/dev/zero of=$(img) bs=1M count=$(IMAGE_SIZE) status=none
 	@echo "== creating fat partition"
 	echo ",,6" | /sbin/sfdisk -q $(img)
 	@echo "== losetup partition on /dev/loop0"
@@ -20,7 +22,7 @@ all: ../ubootimg/boot.img ../ubootenv/ubootenv
 	@echo "== copying files"
 	sudo cp -v tmp/boot/vmlinuz-* mnt/vmlinuz
 	sudo cp -v tmp/boot/s5p6818-nanopi-m3.dtb \
-		../installer/upstream/build/dest/nanopim3/netboot/gtk/initrd.gz mnt
+		../installer/upstream/build/dest/nanopim3/$(INITRD_PATH) mnt
 	@df mnt
 	@echo "== unmounting $(img)"
 	sudo umount mnt

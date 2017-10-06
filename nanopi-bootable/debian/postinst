@@ -51,6 +51,11 @@ nano_logoutput apt-install initramfs-tools
 db_progress step 1
 
 db_progress info nanopi-bootable/install_kernel
+# check if live-installer diverted update-initramfs, revert before we move on
+if [ -e /target/usr/sbin/update-initramfs.flash-kernel-diverted ]; then
+	rm -f /target/usr/sbin/update-initramfs
+	in-target dpkg-divert --remove --local --rename /usr/sbin/update-initramfs
+fi
 pkgname=$(cd /var/lib/nanopi-bootable && echo linux-image-*.deb)
 cp /var/lib/nanopi-bootable/$pkgname /target/tmp
 in-target dpkg -i /tmp/$pkgname
