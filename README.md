@@ -98,7 +98,7 @@ The installation image may be built only on target Debian or Ubuntu system, i.e.
 
 	    apt-get source debian-installer
 
- * bl1 boot image, _bl1-drone.bin_
+ * bl1 boot image, _bl1-nanopi.bin_
  * u-boot binary image, _u-boot.bin_
  * Debian package with kernel - it may be taken from [NanoPi kernel release files](https://github.com/rafaello7/linux-nanopi-m3/releases) or built from the kernel sources as _bindeb-pkg_ target.
  * nanopi-bluetooth debian package
@@ -107,7 +107,7 @@ The directory contents may look like below:
 
 	$ ll debian-installer-nanopi-m3/base
 	total 6080
-	-rw-r--r-- 1 rafal rafal   28140 Jul 28 17:47 bl1-drone.bin
+	-rw-r--r-- 1 rafal rafal   28140 Jul 28 17:47 bl1-nanopi.bin
 	drwxr-xr-x 5 rafal rafal    4096 Jul 18 07:21 debian-installer-20170615+deb9u1
 	-rw-r--r-- 1 rafal rafal 5854766 Jul 27 21:24 linux-image-4.11.6+_4.11.6+-395_arm64.deb
 	-rw-r--r-- 1 rafal rafal   33814 Sep 30 16:46 nanopi-bluetooth_2_arm64.deb
