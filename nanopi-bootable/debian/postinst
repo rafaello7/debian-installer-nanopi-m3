@@ -57,21 +57,24 @@ if [ -e /target/usr/sbin/update-initramfs.flash-kernel-diverted ]; then
 	in-target dpkg-divert --remove --local --rename /usr/sbin/update-initramfs
 fi
 pkgname=$(cd /var/lib/nanopi-bootable && echo linux-image-*.deb)
+kernelver=$(echo "$pkgname" | sed -e 's/linux-image-\([0-9]\.[0-9]\+\.[0-9]\++\?\)_.*\.deb/\1/')
 cp /var/lib/nanopi-bootable/$pkgname /target/tmp
 in-target dpkg -i /tmp/$pkgname
 rm -f /target/tmp/$pkgname
 if [ "$bootfstype" = fat ]; then
-	nano_logoutput cp -f /target/boot/initrd.img-4.11.6+ /target/boot/initrd.img
-	nano_logoutput cp -f /target/boot/vmlinuz-4.11.6+ /target/boot/vmlinuz
+	nano_logoutput cp -f /target/boot/initrd.img-$kernelver /target/boot/initrd.img
+	nano_logoutput cp -f /target/boot/vmlinuz-$kernelver /target/boot/vmlinuz
+	nano_logoutput cp -f /target/boot/nanopim3-$kernelver.dtb /target/boot/nanopim3.dtb
 else
-	nano_logoutput ln -sf initrd.img-4.11.6+ /target/boot/initrd.img
-	nano_logoutput ln -sf vmlinuz-4.11.6+ /target/boot/vmlinuz
+	nano_logoutput ln -sf initrd.img-$kernelver /target/boot/initrd.img
+	nano_logoutput ln -sf vmlinuz-$kernelver /target/boot/vmlinuz
+	nano_logoutput ln -sf nanopim3-$kernelver.dtb /target/boot/nanopim3.dtb
 fi
 db_progress step 1
 
 db_progress info nanopi-bootable/install_uboot
 # embedding boot.img on sd card
-# on 4.11 kernel the SD appears as /dev/mmcblk2, emmc as /dev/mmcblk0
+# on 4.11+ kernel the SD appears as /dev/mmcblk2, emmc as /dev/mmcblk0
 bootimg=/var/lib/nanopi-bootable/boot.img
 
 if [ "$embed_drv" = "/dev/mmcblk0" ]; then
@@ -98,7 +101,7 @@ nano_log "loadcmd=$loadcmd, bootpath=$bootpath, rootmnt=$rootmnt"
 	# vmlinuz must be unzipped for booti command
 	# initrd must be padded with zeros till size provided in "initrd=" parameter
 	# otherwise kernel does not use the initrd image
-	echo "bootcmd=$loadcmd 0x49000000 ${bootpath}vmlinuz; unzip 0x49000000 0x48000000; mw 0x49000000 0 0x800000; $loadcmd 0x49000000 ${bootpath}initrd.img; $loadcmd 0x4a000000 ${bootpath}s5p6818-nanopi-m3.dtb; booti 0x48000000 - 0x4a000000"
+	echo "bootcmd=$loadcmd 0x49000000 ${bootpath}vmlinuz; unzip 0x49000000 0x48000000; mw 0x49000000 0 0x800000; $loadcmd 0x49000000 ${bootpath}initrd.img; $loadcmd 0x4a000000 ${bootpath}nanopim3.dtb; booti 0x48000000 - 0x4a000000"
 } | /var/lib/nanopi-bootable/ubootenv | nano_logoutput dd of=$embed_drv bs=1k seek=512
 
 db_progress step 1

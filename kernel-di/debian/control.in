@@ -3,18 +3,18 @@ Maintainer: Rafaello7 <fatwildcat@gmail.com>
 Build-Depends: debhelper (>= 9)
 Priority: standard
 
-Package: kernel-image-4.11.6+-di
+Package: kernel-image-KVER-di
 Architecture: arm64
 Section: debian-installer
 Provides: kernel-image, crypto-modules, ext2-modules, fat-modules
 Package-Type: udeb
-Kernel-Version: 4.11.6+
+Kernel-Version: KVER
 Description: Linux kernel
 
-Package: nic-modules-4.11.6+-di
+Package: nic-modules-KVER-di
 Architecture: arm64
 Section: debian-installer
-Depends: kernel-image-4.11.6+-di
+Depends: kernel-image-KVER-di
 Package-Type: udeb
-Kernel-Version: 4.11.6+
+Kernel-Version: KVER
 Description: Kernel modules

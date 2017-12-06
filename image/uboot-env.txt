@@ -2,4 +2,4 @@ bootargs=console=ttySAC0,115200n8 initrd=0x49000000,0x3000000 console=tty1
 stdin=serial
 stdout=serial,vga
 stderr=serial,vga
-bootcmd=fatload mmc 1:1 0x49000000 vmlinuz; unzip 0x49000000 0x48000000; mw 0x49000000 0 0x3000000; fatload mmc 1:1 0x49000000 initrd.gz; fatload mmc 1:1 0x4c000000 s5p6818-nanopi-m3.dtb; booti 0x48000000 - 0x4c000000
+bootcmd=fatload mmc 1:1 0x49000000 vmlinuz; unzip 0x49000000 0x48000000; mw 0x49000000 0 0x3000000; fatload mmc 1:1 0x49000000 initrd.gz; fatload mmc 1:1 0x4c000000 nanopim3.dtb; booti 0x48000000 - 0x4c000000

@@ -10,9 +10,10 @@ all:
 	mv tmp/lib lib
 
 deb:
+	./pkgprepare.sh
 	dpkg-buildpackage -b -uc
-	rm -f ../linux_*-1_arm64.buildinfo
-	rm -f ../linux_*-1_arm64.changes
+	rm -f ../linux_1_arm64.buildinfo
+	rm -f ../linux_1_arm64.changes
 
 clean:
 	rm -rf tmp boot lib

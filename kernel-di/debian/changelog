@@ -1,5 +1,5 @@
-linux (4.11.6+-1) unstable; urgency=medium
+linux (1) unstable; urgency=medium
 
   * Initial release
 
- -- Rafal <fatwildcat@gmail.com>  Thu, 27 Jul 2017 22:07:47 +0200
+ -- Rafal <fatwildcat@gmail.com>  Wed, 06 Dec 2017 19:17:10 +0100

@@ -21,8 +21,8 @@ all: ../ubootimg/boot.img ../ubootenv/ubootenv
 	sudo mount -t vfat /dev/loop0 mnt
 	@echo "== copying files"
 	sudo cp -v tmp/boot/vmlinuz-* mnt/vmlinuz
-	sudo cp -v tmp/boot/s5p6818-nanopi-m3.dtb \
-		../installer/upstream/build/dest/nanopim3/$(INITRD_PATH) mnt
+	sudo cp -v tmp/boot/nanopim3-*.dtb mnt/nanopim3.dtb
+	sudo cp -v ../installer/upstream/build/dest/nanopim3/$(INITRD_PATH) mnt
 	@df mnt
 	@echo "== unmounting $(img)"
 	sudo umount mnt

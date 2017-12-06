@@ -2,6 +2,8 @@
 
 NET_RETRIEVER = usr/lib/debian-installer/retriever/net-retriever
 
+kernelver = $$(cd ../../../base; echo linux-image-*.deb | sed -e 's/linux-image-\([0-9]\.[0-9]\+\.[0-9]\++\?\)_.*\.deb/\1/')
+
 arch_tree:
 	# add fake information about package with kernel modules
 	# to package list returned by net-retriever
@@ -9,18 +11,18 @@ arch_tree:
 	echo '#!/bin/sh'								>$(TREE)/$(NET_RETRIEVER)
 	echo '/$(NET_RETRIEVER).dist "$$@" || exit 1'			>>$(TREE)/$(NET_RETRIEVER)
 	echo '[ "$$1" = "packages" ] && cat <<End >>"$$2"' >>$(TREE)/$(NET_RETRIEVER)
-	echo 'Package: fake-modules-4.11.6+-di'			>>$(TREE)/$(NET_RETRIEVER)
+	echo "Package: fake-modules-$(kernelver)-di"	>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Source: pi'								>>$(TREE)/$(NET_RETRIEVER)
-	echo 'Version: 4.11.6+'							>>$(TREE)/$(NET_RETRIEVER)
+	echo "Version: $(kernelver)"					>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Installed-Size: 1'						>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Maintainer: Rafaello7'					>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Architecture: arm64'						>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Provides: anna-no-complain'				>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Description: Prevents from anna complain'	>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Section: debian-installer'				>>$(TREE)/$(NET_RETRIEVER)
-	echo 'Kernel-Version: 4.11.6+'					>>$(TREE)/$(NET_RETRIEVER)
+	echo "Kernel-Version: $(kernelver)"				>>$(TREE)/$(NET_RETRIEVER)
 	echo 'Priority: extra'							>>$(TREE)/$(NET_RETRIEVER)
-	echo 'Filename: pool/fake/l/linux/fake-modules-4.11.6+.udeb' >>$(TREE)/$(NET_RETRIEVER)
+	echo "Filename: pool/fake/l/linux/fake-modules-$(kernelver).udeb" >>$(TREE)/$(NET_RETRIEVER)
 	echo 'Size: 1'									>>$(TREE)/$(NET_RETRIEVER)
 	echo											>>$(TREE)/$(NET_RETRIEVER)
 	echo End										>>$(TREE)/$(NET_RETRIEVER)

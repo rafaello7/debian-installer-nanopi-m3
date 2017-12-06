@@ -3,7 +3,7 @@ bdir = var/lib/nanopi-wifi
 all:
 	$(MAKE) clean
 	mkdir -p $(bdir)
-	cp ../ap6212-firmware_*_all.deb $(bdir)
+	cp ../base/ap6212-firmware_*_all.deb $(bdir)
 
 deb:
 	dpkg-buildpackage -b -uc

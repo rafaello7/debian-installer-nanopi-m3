@@ -12,8 +12,11 @@ debhelper-build-stamp
 /image/*-installer-nanopi.img
 /image/tmp/
 /kernel-di/boot/
-/kernel-di/debian/kernel-image-4.11.6+-di/
-/kernel-di/debian/nic-modules-4.11.6+-di/
+/kernel-di/debian/control
+/kernel-di/debian/kernel-image-*-di.install
+/kernel-di/debian/kernel-image-*-di/
+/kernel-di/debian/nic-modules-*-di/
+/kernel-di/debian/nic-modules-*-di.install
 /kernel-di/lib/
 /kernel-di/tmp/
 /nanopi-bluetooth/debian/nanopi-bluetooth/
