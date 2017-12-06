@@ -98,6 +98,7 @@ The installation image may be built only on target Debian or Ubuntu system, i.e.
 
 	    apt-get source debian-installer
 
+ * ap6212-firmware package files: _deb_ and _udeb_
  * bl1 boot image, _bl1-nanopi.bin_
  * u-boot binary image, _u-boot.bin_
  * Debian package with kernel - it may be taken from [NanoPi kernel release files](https://github.com/rafaello7/linux-nanopi-m3/releases) or built from the kernel sources as _bindeb-pkg_ target.
@@ -106,12 +107,15 @@ The installation image may be built only on target Debian or Ubuntu system, i.e.
 The directory contents may look like below:
 
 	$ ll debian-installer-nanopi-m3/base
-	total 6080
-	-rw-r--r-- 1 rafal rafal   28140 Jul 28 17:47 bl1-nanopi.bin
-	drwxr-xr-x 5 rafal rafal    4096 Jul 18 07:21 debian-installer-20170615+deb9u1
-	-rw-r--r-- 1 rafal rafal 5854766 Jul 27 21:24 linux-image-4.11.6+_4.11.6+-395_arm64.deb
-	-rw-r--r-- 1 rafal rafal   33814 Sep 30 16:46 nanopi-bluetooth_2_arm64.deb
-	-rw-r--r-- 1 rafal rafal  335624 Jul 28 17:55 u-boot.bin
+	total 7356
+	-rw-r--r-- 1 rafal rafal  227396 Dec  6 23:16 ap6212-firmware_2_all.deb
+	-rw-r--r-- 1 rafal rafal  226398 Dec  6 23:16 ap6212-firmware-di_2_all.udeb
+	-rwxr-xr-x 1 rafal rafal   28784 Dec  6 23:16 bl1-nanopi.bin
+	drwxrwxr-x 5 rafal rafal    4096 Oct 12 21:45 debian-installer-20101020ubuntu523
+	-rw-r--r-- 1 rafal rafal 6632158 Dec  6 23:16 linux-image-4.14.4+_4.14.4+-1_arm64.deb
+	-rw-r--r-- 1 rafal rafal   33858 Dec  6 23:16 nanopi-bluetooth_3_arm64.deb
+	-rwxr-xr-x 1 rafal rafal  361744 Dec  6 23:16 u-boot.bin
+
 
 It is also necessary to install tools needed to build the installer:
 

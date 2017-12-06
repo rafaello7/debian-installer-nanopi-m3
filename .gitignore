@@ -6,9 +6,6 @@
 *.substvars
 debhelper-build-stamp
 /*/debian/files
-/ap6212-firmware-di/debian/ap6212-firmware-di/
-/ap6212-firmware-di/debian/ap6212-firmware/
-/ap6212-firmware_1_all.deb
 /image/*-installer-nanopi.img
 /image/tmp/
 /kernel-di/boot/
